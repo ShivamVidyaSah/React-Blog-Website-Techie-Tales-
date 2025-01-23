@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/ShivamVidyaSah/React-Blog-Website-Techie-Tales-#readme",
+  "bugs": {
+    "url": "https://github.com/ShivamVidyaSah/React-Blog-Website-Techie-Tales-/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShivamVidyaSah/React-Blog-Website-Techie-Tales-.git"
+  },
+  "license": "ISC",
+  "author": "Shivam Vidya Sah",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  }
+}

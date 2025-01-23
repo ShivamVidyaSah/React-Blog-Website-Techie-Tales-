@@ -67,6 +67,15 @@ const SignUpBtn = styled(Button)`
     box-shadow: 0 2px 2px 0 rgb(0 0 0/20%);
 `
 
+
+//Now to store the values of username, name and password coming from the form, we have to create an object that will
+//store the values and will have to store this object in a state
+const signUpInitialValues = {
+    name:'',
+    username:'',
+    password:''
+}
+
 const Login = () =>{
 
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
@@ -76,13 +85,27 @@ const Login = () =>{
     //a state is read-only, you cannot directly change it from anywhere
     // you have to use the states function, in this case it is "toggleAccount"
 
+
+    const [signup,  setSignUp] = useState(signUpInitialValues);
+
     const toggleSignUp = (bool) =>{
-        console.log(bool);
+        
         if(bool){
             toggleAccount("signup");
         }else{
             toggleAccount("login");
         }
+    }
+
+    // the onInputchange function is accepting an event "e" and we can access the values
+    // using e.target.name for the names and e.target.value for the values.
+    //we will pass the values in key value pairs to the signUpInitialValues object
+    // and to prevent it from overriding previous value we will pass "...signup" before the key and values
+    // as show in the code below
+    //[e.target.name] = key and e.target.value=value.
+    //the key has to be in square brakets
+    const onInputchange = (e) =>{
+            signUpInitialValues({...signup,[e.target.name]:e.target.value});
     }
         return (
         //In mui, Box act as replacement for Div
@@ -100,9 +123,10 @@ const Login = () =>{
                     account === "login" ?
                         
                         <FormStyle>
-                            <TextField variant="standard" label="Enter UserName"/>
-                            <TextField variant="standard" label="Enter Password"/>
-                            <Loginbtn variant="contained">Login</Loginbtn>
+                            {/* with the onchange event, we are trying to catch any changes to the input field */}
+                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="username" label="Enter UserName"/>
+                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="password" label="Enter Password"/>
+                            <Loginbtn variant="contained" >Login</Loginbtn>
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
                             <Typography style={{textAlign:"center",color:878787, fontSize:12}}>OR</Typography> 
                             <SignUpBtn variant="text" onClick={()=>toggleSignUp(true)}>Sign Up</SignUpBtn>
@@ -110,9 +134,9 @@ const Login = () =>{
                     :
                         
                         <FormStyle>
-                            <TextField variant="standard" label="Enter Name"/>
-                            <TextField variant="standard" label="Enter Username"/>
-                            <TextField variant="standard" label="Enter Password"/>
+                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="name" label="Enter Name"/>
+                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="username" label="Enter Username"/>
+                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="password" label="Enter Password"/>
                             <SignUpBtn variant="contained">Signup</SignUpBtn>
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
                             <Typography style={{textAlign:"center",color:878787, fontSize:12}}>OR</Typography> 
