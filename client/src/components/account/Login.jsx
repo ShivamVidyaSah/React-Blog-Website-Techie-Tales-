@@ -83,7 +83,7 @@ const Login = () =>{
 
     const [account, toggleAccount] = useState("login");
     //a state is read-only, you cannot directly change it from anywhere
-    // you have to use the states function, in this case it is "toggleAccount"
+    // you have to use the states function(toogleAccount), in this case it is "toggleAccount"
 
 
     const [signup,  setSignUp] = useState(signUpInitialValues);
@@ -99,13 +99,18 @@ const Login = () =>{
 
     // the onInputchange function is accepting an event "e" and we can access the values
     // using e.target.name for the names and e.target.value for the values.
-    //we will pass the values in key value pairs to the signUpInitialValues object
+    //we will pass the values in key value pairs to the setSignUp state function 
     // and to prevent it from overriding previous value we will pass "...signup" before the key and values
     // as show in the code below
     //[e.target.name] = key and e.target.value=value.
     //the key has to be in square brakets
     const onInputchange = (e) =>{
-            signUpInitialValues({...signup,[e.target.name]:e.target.value});
+            setSignUp({...signup,[e.target.name]:e.target.value});
+    }
+
+    // using the below function we will call the api file located in services
+    const signupUser = () =>{
+
     }
         return (
         //In mui, Box act as replacement for Div
@@ -137,7 +142,8 @@ const Login = () =>{
                             <TextField variant="standard" onChange={(e) => onInputchange(e)} name="name" label="Enter Name"/>
                             <TextField variant="standard" onChange={(e) => onInputchange(e)} name="username" label="Enter Username"/>
                             <TextField variant="standard" onChange={(e) => onInputchange(e)} name="password" label="Enter Password"/>
-                            <SignUpBtn variant="contained">Signup</SignUpBtn>
+                            <SignUpBtn onClick={()=>signupUser()}variant="contained">Signup</SignUpBtn>
+                            {/* this onclick will call the function which inturn will call the api for signup */}
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
                             <Typography style={{textAlign:"center",color:878787, fontSize:12}}>OR</Typography> 
                             <Loginbtn variant="text" onClick={() => toggleSignUp(false)}>Already have an account?</Loginbtn>

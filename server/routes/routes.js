@@ -1,7 +1,7 @@
 //This file will store all the routes for our API
 
 import express from "express";
-import { signupUser} from "../controller/user-controller.js";
+import signupUser from "../controller/user-controller.js";
 
 
 //This will allow us to to define specific routes and 
