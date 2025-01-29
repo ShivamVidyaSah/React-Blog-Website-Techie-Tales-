@@ -2,6 +2,8 @@
 
 import express from "express";
 import Connection from "./database/db.js";
+import cors from "cors";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 //importing the dotenv dependency here and storing the files from the 
 //.env file to variable that can be passed as parameters in the
@@ -9,12 +11,20 @@ import dotenv from "dotenv";
 import Router from "./routes/routes.js";
 //importing the routes.js file to use it
 
+
+const app = express();
 dotenv.config(); //Config. config will read your .env file, 
 // parse the contents, assign it to process.env , and return 
 // an Object with a parsed key containing the loaded content 
 // or an error key if it failed
-const app = express();
+
 const port = 4000;
+
+app.use(cors()); 
+//the above line helps us handle any cors errors
+
+app.use(bodyParser.json({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));
 
 app.use("/", Router);
 // the app.use adds a  middleware to the application request.

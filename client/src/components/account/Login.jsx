@@ -8,6 +8,7 @@ import { useState } from "react";
 
 
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
+import { API } from "../../services/api.js"
 
 //Handling styling in Material UI is a little complex.
 // We have to use the "styled" component. First we import the "styled" component
@@ -67,6 +68,13 @@ const SignUpBtn = styled(Button)`
     box-shadow: 0 2px 2px 0 rgb(0 0 0/20%);
 `
 
+const Error = styled(Typography)`
+    font-size:10px;
+    color:#ff6161;
+    line-height:0;
+    margin-top:10px;
+    font-weight:600;
+`
 
 //Now to store the values of username, name and password coming from the form, we have to create an object that will
 //store the values and will have to store this object in a state
@@ -87,6 +95,10 @@ const Login = () =>{
 
 
     const [signup,  setSignUp] = useState(signUpInitialValues);
+
+    const [error, setError] = useState("");
+    //This will keep a track of the error while signing up to display 
+    //it to the user
 
     const toggleSignUp = (bool) =>{
         
@@ -109,8 +121,30 @@ const Login = () =>{
     }
 
     // using the below function we will call the api file located in services
-    const signupUser = () =>{
-
+    const signupUser = async() => {
+        try{
+        //i am calling the api from here and passing the the state that stores 
+        // the signup values and the storing the value in a variable
+        let response = await API.userSignup(signup);
+        //[NOTE: Whenever we hit the sign up button we will get a cors error,
+        //we get that error when server and client are running on different server ports
+        // to handle that, we need to install a dependency called "cors" and 
+        // use it as a function in the "server/index.js" file]
+        if(response.isSuccess){
+            //if we get the response as success the we are assigning 
+            //the "signup" state the initial values of "signUpInitialValues"
+            setSignUp(signUpInitialValues);
+            //and changing the signup screen to login screen
+            toggleAccount("login");
+        }else{
+            //but incase of an error we are using a new state named "error"
+            setError("Something went wrong, please try again later");
+        } 
+        }
+        catch(error){
+            console.log("Error occured while signing up");
+            setError("Something went wrong, please try again later");
+        }
     }
         return (
         //In mui, Box act as replacement for Div
@@ -133,6 +167,7 @@ const Login = () =>{
                             <TextField variant="standard" onChange={(e) => onInputchange(e)} name="password" label="Enter Password"/>
                             <Loginbtn variant="contained" >Login</Loginbtn>
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
+                            {error && <Error>{error}</Error>}
                             <Typography style={{textAlign:"center",color:878787, fontSize:12}}>OR</Typography> 
                             <SignUpBtn variant="text" onClick={()=>toggleSignUp(true)}>Sign Up</SignUpBtn>
                         </FormStyle>
@@ -145,6 +180,9 @@ const Login = () =>{
                             <SignUpBtn onClick={()=>signupUser()}variant="contained">Signup</SignUpBtn>
                             {/* this onclick will call the function which inturn will call the api for signup */}
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
+                            {error && <Error>{error}</Error>}
+                            {/*The above code will check, whether there is an error whiling signing up or not
+                            if there is, it will then only show the desired message */}
                             <Typography style={{textAlign:"center",color:878787, fontSize:12}}>OR</Typography> 
                             <Loginbtn variant="text" onClick={() => toggleSignUp(false)}>Already have an account?</Loginbtn>
                         </FormStyle>
