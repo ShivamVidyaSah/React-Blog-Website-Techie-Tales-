@@ -84,6 +84,13 @@ const signUpInitialValues = {
     password:''
 }
 
+//Now to store the values of username, name and password coming from the form, we have to create an object that will
+//store the values and will have to store this object in a state
+const loginInitiatlValue = {
+    username:'',
+    password:''
+}
+
 const Login = () =>{
 
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
@@ -95,6 +102,8 @@ const Login = () =>{
 
 
     const [signup,  setSignUp] = useState(signUpInitialValues);
+
+    const [login, setLogin] = useState(loginInitiatlValue);
 
     const [error, setError] = useState("");
     //This will keep a track of the error while signing up to display 
@@ -143,8 +152,13 @@ const Login = () =>{
         }
         catch(error){
             console.log("Error occured while signing up");
-            setError("Something went wrong, please try again later");
+            setError("Something went wrong, please try again latValue");
         }
+    }
+
+    //This onValuechange will handle the login part
+    const onValuechange = (e) => {
+
     }
         return (
         //In mui, Box act as replacement for Div
@@ -163,8 +177,8 @@ const Login = () =>{
                         
                         <FormStyle>
                             {/* with the onchange event, we are trying to catch any changes to the input field */}
-                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="username" label="Enter UserName"/>
-                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="password" label="Enter Password"/>
+                            <TextField variant="standard" onChange={(e) => onValuechange(e)} name="username" label="Enter UserName"/>
+                            <TextField variant="standard" onChange={(e) => onValuechange(e)} name="password" label="Enter Password"/>
                             <Loginbtn variant="contained" >Login</Loginbtn>
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
                             {error && <Error>{error}</Error>}

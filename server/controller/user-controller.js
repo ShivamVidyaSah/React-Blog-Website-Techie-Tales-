@@ -10,9 +10,29 @@
 import User from "../model/user.js";
 
 
+import bcrypt from "bcrypt";
+//this bcrypt package help in encrypting  our password
+//and convert it into a ramdon set of string to protect it from attacks
+
 const signupUser = async (req,res) =>{
     try{
-        const user = req.body; // this will store the entire body of the
+
+        const salt = await bcrypt.genSalt();
+        // the salt here is a set of random string that will be appended at the beginning of 
+        //Remember that our password will also be converted to a set os random string and this
+        //salt will appended at  the beginning
+        //and you can mention the length of the salt in the bracket like how much oof the lenght yyou want it to
+        //be eg: await bcrypt.genSalt(30); will generate a salt of length 30;
+
+        const hashedPassword = await bcrypt.hash(request.body.password, salt);
+        //this hashed variable will store the hashed or encrypted password and
+        //the salt will get appended
+
+
+        const user = { username: req.body.username, name : req.body.name, password: hashedPassword}; 
+        
+        // previously this was written as  const user = req.body;
+        // this was supposed to store the entire body of the
         //request parameter like username, name and password.
 
         const newUser = new User(user);
