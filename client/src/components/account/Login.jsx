@@ -152,14 +152,36 @@ const Login = () =>{
         }
         catch(error){
             console.log("Error occured while signing up");
-            setError("Something went wrong, please try again latValue");
+            setError("Something went wrong, please try again later");
         }
     }
 
     //This onValuechange will handle the login part
     const onValuechange = (e) => {
-
+            setLogin({...login, [e.target.name]:e.target.value});
     }
+
+    //All the functionality will be similar to signupUser function with some
+    //necessary changes as this function is for the login purpose
+    const loginUser = async() => {
+        try{
+
+            let response = await API.userLogin(login);
+
+            if(response.isSuccess){
+                //if login is a success, then we have to empty the error state
+                //so that no error gets displayed
+                setError(' ');
+               
+                //whatever repsonse(accessToken or refreshToken) we are getting, we will be storing it in sessionStorage
+                sessionStorage.setItem('accessToken' , `Bearer ${response.data.accessToken}`);
+            }
+
+        }catch(error){
+            setError("Something went wrong, please try again later");
+        }
+    }
+
         return (
         //In mui, Box act as replacement for Div
         //Box are similar to div in functionality and renders 
@@ -177,9 +199,10 @@ const Login = () =>{
                         
                         <FormStyle>
                             {/* with the onchange event, we are trying to catch any changes to the input field */}
-                            <TextField variant="standard" onChange={(e) => onValuechange(e)} name="username" label="Enter UserName"/>
-                            <TextField variant="standard" onChange={(e) => onValuechange(e)} name="password" label="Enter Password"/>
-                            <Loginbtn variant="contained" >Login</Loginbtn>
+                            {/*we are also making this a controlled component using values={login.username} and the same for password*/}
+                            <TextField variant="standard" values={login.username} onChange={(e) => onValuechange(e)} name="username" label="Enter UserName"/>
+                            <TextField variant="standard" values={login.password} onChange={(e) => onValuechange(e)} name="password" label="Enter Password"/>
+                            <Loginbtn variant="contained" onClick={()=>loginUser()}>Login</Loginbtn>
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
                             {error && <Error>{error}</Error>}
                             <Typography style={{textAlign:"center",color:878787, fontSize:12}}>OR</Typography> 

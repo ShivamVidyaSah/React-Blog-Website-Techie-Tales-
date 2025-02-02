@@ -30,5 +30,9 @@ export const API_NOTIFICATION_MESSAGE = {
 // we can params as well with values ['true','false'] and
 // query with value ['true','false']
 export const SERVICE_URLS ={
-    userSignup: { url:"/signup", method:'POST'}
+    //This API is for the signupUser function
+    userSignup: { url:"/signup", method:'POST'},
+
+    //This API is for the loginUser function
+    userLogin: { url:"/login", method: 'POST'}
 }
