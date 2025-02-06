@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+//useContext is a React Hook that lets you read and subscribe to context from your component.
+
 //We will using Material Ui for design components
 //Website -> mui.com, then we install
 //importing "Box" from "Material UI"
@@ -10,6 +12,7 @@ import { useState } from "react";
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
 import { API } from "../../services/api.js"
 
+import { DataContext } from "../../context/DataProvider.jsx";
 //Handling styling in Material UI is a little complex.
 // We have to use the "styled" component. First we import the "styled" component
 //Then use the following type example to implement it
@@ -19,6 +22,10 @@ import { API } from "../../services/api.js"
 //in this case it is "Box", after we apply our css we have to change the name of the component
 //with the name of the variable storing the css, like in this case "Box" gets replace by "StyledBox"
 // Remember to start the variable name with an uppercase letter
+
+
+import { useNavigate } from "react-router-dom";
+//this will help us in navigating throughout the app using routes
 
 const Styledbox = styled(Box)`
     width:400px;
@@ -109,6 +116,12 @@ const Login = () =>{
     //This will keep a track of the error while signing up to display 
     //it to the user
 
+    const {setAccount} = useContext(DataContext);
+    // useContext returns an object containing the values that were provided in DataContext.Provider.
+    // { setAccount } is destructuring this object to extract only the setContext function.
+
+    const navigate = useNavigate(); // here we are initializing the useNavigate hook
+
     const toggleSignUp = (bool) =>{
         
         if(bool){
@@ -174,7 +187,18 @@ const Login = () =>{
                 setError(' ');
                
                 //whatever repsonse(accessToken or refreshToken) we are getting, we will be storing it in sessionStorage
+                // we are getting this form the processResponse in api.js
                 sessionStorage.setItem('accessToken' , `Bearer ${response.data.accessToken}`);
+                sessionStorage.setItem('refreshToken' , `Bearer ${response.data.refreshToken}`);
+
+                //the processResponse also sends us name and username, we will have to store them as well
+                // so that we can use them inside the project whenever we need, we will use context api for that
+                // with the help fo context api we can store the informatioin globally and pass it within  components
+                // whenever required
+
+                setAccount({username: response.data.username, name: response.data.name});
+                //Now that we are setting the response data to Account state in DataProvider.jsx, we can use it globally without an issues 
+                // we just have to import and use
             }
 
         }catch(error){
