@@ -98,7 +98,8 @@ const loginInitiatlValue = {
     password:''
 }
 
-const Login = () =>{
+//Since i have passed the isUserAuthenticated as a prop, i can now use it here
+const Login = ( isUserAuthenticated) =>{
 
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
 
@@ -199,6 +200,15 @@ const Login = () =>{
                 setAccount({username: response.data.username, name: response.data.name});
                 //Now that we are setting the response data to Account state in DataProvider.jsx, we can use it globally without an issues 
                 // we just have to import and use
+
+                isUserAuthenticated(true);
+                //This will set the isAuthenticated state to true back in App.js;
+
+                navigate('/');
+                //This will ensure that if the user successfully logsin, they will be directed to the home page
+                //how this will work ? if you check the App.js page then you will see that for the path of '/',
+                //we have given the element of home meaning, when ever the path '/' is called for, the home page will appear
+                // and here we are using navigate to call the '/' path
             }
 
         }catch(error){

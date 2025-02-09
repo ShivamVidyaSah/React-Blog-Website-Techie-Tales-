@@ -2,10 +2,31 @@
 import './App.css';
 import Login from './components/account/Login';
 import Home from "./components/home/Home.jsx";
+import DataProvider from './context/DataProvider.jsx';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/header/Header.jsx';
+import { useState } from 'react';
+
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+
+//The work of this private route will be to check whether the user is authenticated or not
+// if yes only then they can access all the other components, or else they will not be allowed
+const PrivateRoute = () =>{
+
+  return isAuthenticated ? <></> : <Navigate replace to='/login'/>
+  //the <Navigate/> will ensure that the if the user is someone who is not authenticated, will be navigate
+  // to the login screen. <Navigate/> is a component of react router dom
+
+}
 
 function App() {
+
+
+  const [isAuthenticated, isUserAuthenticated] = useState(false);
+  //This state will have to be passes to the login.jsx as we are authenticating the user there.
+  // we will pass it as props
+
   return (
    
       // // {/* Wrapping the component with the context */}
@@ -18,6 +39,7 @@ function App() {
         {/* After routing th entire thing wil browser router, we have to wrap the components
         where we want routing to happen with " {Routes} */}
         <BrowserRouter>
+        <Header />
          <div className="App" style={{marginTop:60}}>
             {/* Here login is the children of DataProvider and that is why we have to pass children as a parameter in 
             DataPrivider function*/}
@@ -25,7 +47,8 @@ function App() {
               {/* after wraping the components we have to mention the route
               using {Route} */}
               {/* Follow the syntax given below */}
-              <Route path ='/login' element={<Login/>} />
+              <Route path ='/login' element={<Login isUserAuthenticated={isAuthenticated}/>} />
+              {/* Here i am passing the isAuthenticated state to the login cuz there we have authenticated the user */}
 
                   {/* Now here we have to use url based routing to so that
                   when the url changes the page changes or else if we keep 
