@@ -99,7 +99,7 @@ const loginInitiatlValue = {
 }
 
 //Since i have passed the isUserAuthenticated as a prop, i can now use it here
-const Login = ( isUserAuthenticated) =>{
+const Login = ( {isUserAuthenticated}) =>{
 
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
 
@@ -204,7 +204,8 @@ const Login = ( isUserAuthenticated) =>{
                 isUserAuthenticated(true);
                 //This will set the isAuthenticated state to true back in App.js;
 
-                navigate('/');
+            
+                navigate("/");
                 //This will ensure that if the user successfully logsin, they will be directed to the home page
                 //how this will work ? if you check the App.js page then you will see that for the path of '/',
                 //we have given the element of home meaning, when ever the path '/' is called for, the home page will appear
@@ -212,6 +213,7 @@ const Login = ( isUserAuthenticated) =>{
             }
 
         }catch(error){
+            console.log(error);
             setError("Something went wrong, please try again later");
         }
     }

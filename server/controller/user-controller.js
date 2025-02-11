@@ -76,6 +76,7 @@ const loginUser = async(req,res) => {
 
     //if username matched then we have to compare using password
     let match = await bcrypt.compare(req.body.password, user.password);
+    // console.log(match + " checking comparing");
     //the bcrypt.compare method is used to compare two passoword. It takes 3 parameters
     //a plaintext, the hashed password and a callback function
     if(match){

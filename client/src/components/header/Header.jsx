@@ -17,12 +17,12 @@ const Component = styled(AppBar)`
 //When we change this to Link, link by default returns an "a" tag, so we have to replace "p" with "a"
 const Container = styled(Toolbar)`
     justify-content: center;
-    & a > {
+    & a {
         padding: 20px;
         text-decoration:none;
     }
 
-`
+`;
 
 const Header = () => {
 
