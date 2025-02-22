@@ -9,7 +9,7 @@ import {createContext, useState} from "react";
 // called DataContext as well as export it
 // Null is the initial value of the context
 export const DataContext = createContext(null);
-//This DataContext will be imported in the Login.jsx
+//This DataContext will be imported in the Login.jsx and used in CreatePost.jsx as well
 
 const DataProvider = ({children}) =>{
     //creating a state to tore the account information succh as username and name

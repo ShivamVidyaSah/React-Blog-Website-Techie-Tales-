@@ -1,7 +1,16 @@
-//This file will store all the routes for our API
+//This file will store all the routes for our API, whenever we make a API call from the front end
+//it will go through these routes to help upload the image.
+//These contain the url path and the name of the api
+//the api we are calling are all present under the controller folder
 
 import express from "express";
 import {signupUser, loginUser} from "../controller/user-controller.js";
+import { uploadImage, getImage } from "../controller/image-controller.js";
+
+
+import upload from "../utils/upload.js";
+//[IMP: we have to use a middleware because we have to convert the image from binary can
+// we can store it in DB, we will be storing the files for the middleware under /server/utils folder]
 
 
 //This will allow us to to define specific routes and 
@@ -21,5 +30,14 @@ router.post("/login", loginUser);
 //user-controller.js file and is working the same as the function(req,res)
 //that we saw during the course on Udemy
 
+router.post("/file/upload", upload.single("file"), uploadImage);
+//the second parameter here is a middle ware. the .post() methods usually takes the 
+//second parameter as a middleware. uploads is the name of the middleware we are importing
+//.single('file') - means we are upladoing a single file
+// ('file') - means we are uploading a file
+// so when the route comes here, before going to the api call, 
+
+
+//router.get('file/:filename' , getImage);
 
 export default router;

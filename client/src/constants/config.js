@@ -1,4 +1,5 @@
 //We can store all our API NOTIFICATION MESSAGES
+//and our APIs
 
 export const API_NOTIFICATION_MESSAGE = {
     loading:{
@@ -30,9 +31,14 @@ export const API_NOTIFICATION_MESSAGE = {
 // we can params as well with values ['true','false'] and
 // query with value ['true','false']
 export const SERVICE_URLS ={
-    //This API is for the signupUser function
+    
+    //This API is for the signupUser function, this api sends a post request to the /signup route
     userSignup: { url:"/signup", method:'POST'},
 
-    //This API is for the loginUser function
-    userLogin: { url:"/login", method: 'POST'}
+    //This API is for the loginUser function, this api sends a post request to the /login route
+    userLogin: { url:"/login", method: 'POST'},
+
+    //This api is for image upload for the Create blog option, this api sends a post request to the /file/upload route
+    uploadFile: {url:"/file/upload", method:'POST'}
+
 }

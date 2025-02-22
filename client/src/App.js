@@ -8,6 +8,7 @@ import Header from './components/header/Header.jsx';
 import { useState } from 'react';
 
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import CreatePost from './components/create/CreatePost.jsx';
 
 
 //The work of this private route will be to check whether the user is authenticated or not
@@ -34,7 +35,7 @@ const PrivateRoute = ({isAuthenticated, ...props}) => {
 function App() {
 
 
-  const [isAuthenticated, isUserAuthenticated] = useState(false);
+  const [isAuthenticated, isUserAuthenticated] = useState(true);
 
   // console.log(isAuthenticated);
   //This state will have to be passes to the login.jsx as we are authenticating the user there.
@@ -85,6 +86,12 @@ function App() {
                     {/* if we have successfully logged in then we will have to navigate the user to the home package
                     so from we will go to the login.jsx file and use {useNavigate}, it is custom hook from reatc-router-dom */}
 
+              </Route>
+
+              <Route path='/create' element={<PrivateRoute isAuthenticated={isAuthenticated}/>} >
+
+                     <Route path='/create' element={<CreatePost/>}/>{/* This route is the main route */}
+                 
               </Route>
 
             </Routes> 

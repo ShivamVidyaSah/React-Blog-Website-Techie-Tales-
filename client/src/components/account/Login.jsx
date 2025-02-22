@@ -87,6 +87,7 @@ const Error = styled(Typography)`
 //store the values and will have to store this object in a state
 const signUpInitialValues = {
     name:'',
+    email:'',
     username:'',
     password:''
 }
@@ -94,7 +95,7 @@ const signUpInitialValues = {
 //Now to store the values of username, name and password coming from the form, we have to create an object that will
 //store the values and will have to store this object in a state
 const loginInitiatlValue = {
-    username:'',
+    usernameormail:'',
     password:''
 }
 
@@ -175,6 +176,8 @@ const Login = ( {isUserAuthenticated}) =>{
             setLogin({...login, [e.target.name]:e.target.value});
     }
 
+    // console.log(login);
+
     //All the functionality will be similar to signupUser function with some
     //necessary changes as this function is for the login purpose
     const loginUser = async() => {
@@ -236,7 +239,7 @@ const Login = ( {isUserAuthenticated}) =>{
                         <FormStyle>
                             {/* with the onchange event, we are trying to catch any changes to the input field */}
                             {/*we are also making this a controlled component using values={login.username} and the same for password*/}
-                            <TextField variant="standard" values={login.username} onChange={(e) => onValuechange(e)} name="username" label="Enter UserName"/>
+                            <TextField variant="standard" values={login.usernameormail} onChange={(e) => onValuechange(e)} name="usernameormail" label="Enter UserName/Email"/>
                             <TextField variant="standard" values={login.password} onChange={(e) => onValuechange(e)} name="password" label="Enter Password"/>
                             <Loginbtn variant="contained" onClick={()=>loginUser()}>Login</Loginbtn>
                             {/* Typography renders a <p> tag by deafult, can he changed to h1,h2 etc */}
@@ -248,6 +251,7 @@ const Login = ( {isUserAuthenticated}) =>{
                         
                         <FormStyle>
                             <TextField variant="standard" onChange={(e) => onInputchange(e)} name="name" label="Enter Name"/>
+                            <TextField variant="standard" onChange={(e) => onInputchange(e)} name="email" label="Enter Email"/>
                             <TextField variant="standard" onChange={(e) => onInputchange(e)} name="username" label="Enter Username"/>
                             <TextField variant="standard" onChange={(e) => onInputchange(e)} name="password" label="Enter Password"/>
                             <SignUpBtn onClick={()=>signupUser()}variant="contained">Signup</SignUpBtn>

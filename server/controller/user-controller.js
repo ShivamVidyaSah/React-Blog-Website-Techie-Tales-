@@ -40,8 +40,9 @@ const signupUser = async(req,res) =>{
         //the salt will get appended
 
 
-        const user = { username: req.body.username, name : req.body.name, password: hashedPassword}; 
+        const user = { username: req.body.username, name : req.body.name, email:req.body.email, password: hashedPassword}; 
         
+        // console.log(user);
         // previously this was written as  const user = req.body;
         // this was supposed to store the entire body of the
         //request parameter like username, name and password.
@@ -68,10 +69,17 @@ const loginUser = async(req,res) => {
     //.findMany( condition ) - if we are looking for more than one Object in the database
     // the "condition" is what we want to match for searching like do we want to match the user name or password etc
     //it will return the whole object inlcuding username, password, name etc value
-    let user = await User.findOne({username: req.body.username});
+    let user = await User.findOne({
+        $or:[
+            {username:req.body.usernameormail},
+            {email:req.body.usernameormail}
+        ]
+    });
+    //This is $or will check whether your username or email is present, if either is present it will
+    //return true
 
     if(!user){
-        return res.status(400).json({msg:"Username does not match"});
+        return res.status(400).json({msg:"Invalid username or email"});
     }
 
     //if username matched then we have to compare using password

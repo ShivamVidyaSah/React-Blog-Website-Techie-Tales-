@@ -11,6 +11,8 @@ const axiosInstance = axios.create({
     baseURL: API_URL,
     timeout:10000,
     headers:{
+        
+        "Accept": "application/json, multipart/form-data",
         "content-Type":"application/json"
     }
 })
@@ -113,12 +115,14 @@ for( const [key,value] of Object.entries(SERVICE_URLS) ){
             url:value.url,
             data:body,
             responseType:value.responseType,
-            onUploadProgress:function(progressEvent){
-                if(showUploadProgress){
-                    let percentageCompleted = Math.round((progressEvent.loaded * 100)/ progressEvent.total) 
-                    showUploadProgress(percentageCompleted);
-                }
-            },
+            // onUploadProgress:function(progressEvent){
+            //     try{if(showUploadProgress){
+            //         let percentageCompleted = Math.round((progressEvent.loaded * 100)/ progressEvent.total) 
+            //         showUploadProgress(percentageCompleted);
+            //     }}catch(error){
+            //         console.log(error);
+            //     }
+            // },
             onDownloadProgress:function(progressEvent){
                 if(showDownloadProgress){
                     let percentageCompleted = Math.round((progressEvent.loaded * 100)/ progressEvent.total) 

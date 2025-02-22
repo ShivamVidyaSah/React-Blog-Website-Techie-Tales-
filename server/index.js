@@ -11,8 +11,13 @@ import dotenv from "dotenv";
 import Router from "./routes/routes.js";
 //importing the routes.js file to use it
 
+import path from "path";
 
 const app = express();
+
+import { fileURLToPath } from "url";
+
+//app.use('/file', express.static(path.join(__dirname, 'uploads')));
 dotenv.config(); //Config. config will read your .env file, 
 // parse the contents, assign it to process.env , and return 
 // an Object with a parsed key containing the loaded content 
@@ -20,8 +25,13 @@ dotenv.config(); //Config. config will read your .env file,
 
 const port = 4000;
 
-app.use(cors()); 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(cors({ origin: "*", credentials: true, allowedHeaders: "Content-type"})); 
 //the above line helps us handle any cors errors
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
