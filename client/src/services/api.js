@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_NOTIFICATION_MESSAGE, SERVICE_URLS } from "../constants/config.js";
+import { getAccessToken } from "../utils/common-utils.js";
 
 //instaed of making different api 
 //we will be using axios interceptors to create a common api
@@ -115,6 +116,10 @@ for( const [key,value] of Object.entries(SERVICE_URLS) ){
             url:value.url,
             data:body,
             responseType:value.responseType,
+            headers:{
+                authorization : getAccessToken()
+                //here authorization store the accessToken that it get from the common-utils.js file
+            },
             // onUploadProgress:function(progressEvent){
             //     try{if(showUploadProgress){
             //         let percentageCompleted = Math.round((progressEvent.loaded * 100)/ progressEvent.total) 

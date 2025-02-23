@@ -2,7 +2,7 @@
 //import express from "express";
 
 import axios from 'axios';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {useState, useEffect, useContext} from 'react';
 
@@ -14,7 +14,7 @@ import { Box, styled, FormControl, InputBase, Button, TextareaAutosize} from "@m
 
 // TextAreaAutosize is a component that will provide us with a text area field, that is variable in size
 
-//import { API } from "../../services/api";
+import { API } from "../../services/api";
 
 //import cors from "cors";
 
@@ -98,6 +98,7 @@ const CreatePost = () => {
 
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     
     useEffect(()=>{
@@ -180,10 +181,13 @@ const CreatePost = () => {
             setPost({...post,[e.target.name]: e.target.value})
     }
 
+    const savePost = async() => {
+        const res = await API.createPost(post);
+        if(res.isSuccess){
+            navigate('/');
+        }
+    }
     
-    //At first we were hardcoding the url but now we are checking that if there a img present in
-    //post.picture, if true then we display that pic or else we display the hardcoded image
-
     return(
         <Container>
             <Image src={post.picture || url} alt="banner" />
@@ -209,7 +213,7 @@ const CreatePost = () => {
                 to get the desired file */}
 
                 <InputTextField placeholder="Title" onChange={(e) => handleChange(e)} name="title"/> {/*this will give me a text field*/}
-                <Button variant="contained">Publish</Button>
+                <Button variant="contained" onClick={() => savePost()}>Publish</Button>
             </StyledFormControl>
             
 

@@ -35,7 +35,7 @@ const PrivateRoute = ({isAuthenticated, ...props}) => {
 function App() {
 
 
-  const [isAuthenticated, isUserAuthenticated] = useState(true);
+  const [isAuthenticated, isUserAuthenticated] = useState(false);
 
   // console.log(isAuthenticated);
   //This state will have to be passes to the login.jsx as we are authenticating the user there.

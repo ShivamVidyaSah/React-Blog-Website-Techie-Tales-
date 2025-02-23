@@ -28,7 +28,7 @@ const port = 4000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({ origin: "*", credentials: true, allowedHeaders: "Content-type"})); 
+app.use(cors({ origin: "*", credentials: true})); 
 //the above line helps us handle any cors errors
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

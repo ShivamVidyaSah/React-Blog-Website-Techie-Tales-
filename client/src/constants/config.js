@@ -39,6 +39,8 @@ export const SERVICE_URLS ={
     userLogin: { url:"/login", method: 'POST'},
 
     //This api is for image upload for the Create blog option, this api sends a post request to the /file/upload route
-    uploadFile: {url:"/file/upload", method:'POST'}
+    uploadFile: {url:"/file/upload", method:'POST'},
+
+    createPost: {url:"create", method:'POST'}
 
 }
