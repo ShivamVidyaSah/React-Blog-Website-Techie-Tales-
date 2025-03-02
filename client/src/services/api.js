@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_NOTIFICATION_MESSAGE, SERVICE_URLS } from "../constants/config.js";
-import { getAccessToken } from "../utils/common-utils.js";
+import { getAccessToken, getType } from "../utils/common-utils.js";
 
 //instaed of making different api 
 //we will be using axios interceptors to create a common api
@@ -21,6 +21,16 @@ const axiosInstance = axios.create({
 // we will use one interceptor for request 
 axiosInstance.interceptors.request.use(
     function(config){ //successfull response
+
+        //If config.TYPE.params exists, it assigns its value to config.params, 
+        // effectively modifying the request query parameters.
+        if(config.TYPE.params){
+            config.params = config.TYPE.params;
+        }
+        // If config.TYPE.query exists, modify the URL by appending the query
+        else if(config.TYPE.query){
+            config.url= config.url+'/'+config.TYPE.query
+        }
         return config;
     },
     function(error){ //if error
@@ -120,6 +130,8 @@ for( const [key,value] of Object.entries(SERVICE_URLS) ){
                 authorization : getAccessToken()
                 //here authorization store the accessToken that it get from the common-utils.js file
             },
+            TYPE: getType(value,body),// this getType function will help us get the
+            //type of the parameter we are passing (params or query)
             // onUploadProgress:function(progressEvent){
             //     try{if(showUploadProgress){
             //         let percentageCompleted = Math.round((progressEvent.loaded * 100)/ progressEvent.total) 

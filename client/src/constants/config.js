@@ -28,7 +28,7 @@ export const API_NOTIFICATION_MESSAGE = {
 // while making a service call, we need to provide the url and end point
 // fr eg. url endpoint:- '/signup' and method:- ['POST','GET','PUT','DELETE'], 
 //can be any one of the 4 methods
-// we can params as well with values ['true','false'] and
+// we can send params as well with values ['true','false'] and
 // query with value ['true','false']
 export const SERVICE_URLS ={
     
@@ -41,6 +41,8 @@ export const SERVICE_URLS ={
     //This api is for image upload for the Create blog option, this api sends a post request to the /file/upload route
     uploadFile: {url:"/file/upload", method:'POST'},
 
-    createPost: {url:"create", method:'POST'}
+    createPost: {url:"create", method:'POST'},
+
+    getAllPosts: {url:"/posts", method:'GET', params: true}
 
 }

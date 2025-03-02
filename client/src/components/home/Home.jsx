@@ -1,9 +1,10 @@
 //This file is for the home page
 
-import {Grid} from '@mui/material';
+import {Grid2} from '@mui/material';
 
 import Banner from "../banner/Banner.jsx";
 import Categories from "./Categories.jsx";
+import Post from './post/Posts.jsx';
 
 
 const Home = () => {
@@ -12,17 +13,17 @@ const Home = () => {
         // elements without adding an extra wrapper element like <div>
         <>
             <Banner />
-            <Grid container>
+            <Grid2 container spacing={2} >
             {/* lg={2} sm={2} xs={12} corresponds to large screen, 
             small screen and extra small screen */}
-                <Grid item lg={2} sm={2} xs={12}>
+                <Grid2 size={{ lg:2, sm:2, xs:12}}>
                     <Categories/>
-                </Grid>
-                <Grid container item lg={10} sm={10} xs={12}>
-                    Post
-                </Grid>
+                </Grid2>
+                <Grid2 container size={{ lg:10, sm:10, xs:12}}>
+                    <Post />
+                </Grid2>
                 
-            </Grid>    
+            </Grid2>    
         </>
     )
 }
