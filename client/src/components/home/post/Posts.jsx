@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 
 import {Box} from "@mui/material";
 
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 import Grid from '@mui/material/Grid2';
 
@@ -57,8 +57,12 @@ const Posts = () => {
                 post && post.length>0 ? post.map(post => (
                     
                         <Grid size={{lg:3, sm:3, xs:12}}>
-                            <Post post={post} />
-                            {/* //Passing the whole of post data as prop */}
+                            {/* this post._id is coming from mongodb and is unique to each post, we will be using this to uniquely indentify
+                            each blog */}
+                            <Link to={`details/${post._id}`} style={{textDecoration:'none', color: "inherit"}}>
+                                <Post post={post} />
+                                {/* //Passing the whole of post data as prop */}
+                            </Link>
                         </Grid>  
                    
                 )) : <Box style={{color:'#878787', margin:'30px 80px'}}>

@@ -9,6 +9,8 @@ import { useState } from 'react';
 
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import CreatePost from './components/create/CreatePost.jsx';
+import DetailView from './components/details/DetailsView.jsx';
+import Update from './components/create/Update.jsx';
 
 
 //The work of this private route will be to check whether the user is authenticated or not
@@ -35,7 +37,7 @@ const PrivateRoute = ({isAuthenticated, ...props}) => {
 function App() {
 
 
-  const [isAuthenticated, isUserAuthenticated] = useState(false);
+  const [isAuthenticated, isUserAuthenticated] = useState(true);
 
   // console.log(isAuthenticated);
   //This state will have to be passes to the login.jsx as we are authenticating the user there.
@@ -92,6 +94,17 @@ function App() {
 
                      <Route path='/create' element={<CreatePost/>}/>{/* This route is the main route */}
                  
+              </Route>
+
+              {/* we are passing /details/:id because we want to identify each blog uniquely for it to be displayed,
+              hence we arw passing the id */}
+              <Route path='/details/:id' element={<PrivateRoute isAuthenticated={isAuthenticated}/>} >
+                     <Route path='/details/:id' element={<DetailView/>}/>{/* This route is the main route */}
+              </Route>
+
+              {/* we will be updating each blog and to recognize the blog, we need to identify it using the id   */}
+              <Route path='/update/:id' element={<PrivateRoute isAuthenticated={isAuthenticated}/>} >
+                     <Route path='/update/:id' element={<Update/>}/>{/* This route is the main route */}
               </Route>
 
             </Routes> 

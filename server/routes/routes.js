@@ -9,7 +9,7 @@ import { uploadImage, getImage } from "../controller/image-controller.js";
 
 
 import upload from "../utils/upload.js";
-import { createPost, getAllPosts } from "../controller/post-controller.js";
+import { createPost, getAllPosts, getPost } from "../controller/post-controller.js";
 //[IMP: we have to use a middleware because we have to convert the image from binary can
 // we can store it in DB, we will be storing the files for the middleware under /server/utils folder]
 
@@ -50,5 +50,8 @@ router.post('/create', authenticateToken ,createPost);
 
 router.get('/posts',authenticateToken, getAllPosts);
 //getAllPost in present in post-controller.js
+
+
+router.get('/post/:id', authenticateToken , getPost);
 
 export default router;
