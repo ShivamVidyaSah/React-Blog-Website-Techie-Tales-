@@ -102,7 +102,7 @@ const loginUser = async(req,res) => {
         // and .torSting('hex') converts the output into string hexadecimal format
         // we will first write 'node' in the terminal then write the command
         //we are storing the key in the .env file for both the access and refresh token
-        const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_SECRET_KEY, {expiresIn: '15m'} );
+        const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_SECRET_KEY, {expiresIn: '55m'} );
         
         //we need the refresh token because the access token expires after sometime( you can set the expiry time)
         // but the refresh token does not, and after the access token expires, 

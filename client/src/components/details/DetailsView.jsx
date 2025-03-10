@@ -2,9 +2,10 @@ import { useEffect, useState, useContext } from "react";
 import { Box, Typography, styled } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useParams,Link } from "react-router-dom";
+import { useParams,Link, Navigate, useNavigate } from "react-router-dom";
 import { API } from "../../services/api";
 import {DataContext} from "../../context/DataProvider.jsx"
+
 
 
 const Container = styled(Box)`
@@ -53,13 +54,15 @@ const Description = styled(Typography)`
 
 const DetailView = () => {
 
-    const  [ post,setPost] = useState({});//We are setting the default to an empty object
+    const  [ post,setPost ] = useState({});//We are setting the default to an empty object
     // as will be receiving a single post data at a time
 
     //destructing useParams to get the id
     const { id } = useParams();
 
     const {account} = useContext(DataContext);
+
+    const navigate = useNavigate();
 
     const url = post.picture? post.picture: 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
 
@@ -80,6 +83,18 @@ const DetailView = () => {
         fetchData();
     },[])
 
+
+    const deleteBlog = async() => {
+        try{
+            let response = await API.deletePost(post._id);
+            if(response.isSuccess){
+                navigate('/');
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+
     return (
         <Container>
             <Image src={url} alt="blog"/>
@@ -90,7 +105,7 @@ const DetailView = () => {
                     account.username === post.username &&
                     <>
                          <Link to={`/update/${post._id}`}><Edit color="primary" /></Link>
-                         <Delete color="error"/>
+                         <Delete onClick={()=> deleteBlog()} color="error"/>
                     </>
                 }               
             </Box>
@@ -102,7 +117,10 @@ const DetailView = () => {
                 <Typography style={{marginLeft: 'auto'}}>{new Date(post.createdDate).toDateString()}</Typography>
             </Author>
 
-            <Description>{post.description}</Description>
+            {/* <Description>{post.description}</Description> */}
+            <Description component="div">
+                <div dangerouslySetInnerHTML={{ __html: post.description }} />
+            </Description>
 
         </Container>
     )

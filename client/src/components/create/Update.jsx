@@ -2,9 +2,9 @@
 //import express from "express";
 
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate , useParams } from 'react-router-dom';
 
-import {useState, useEffect, useContext} from 'react';
+import {useRef, useState, useEffect, useContext} from 'react';
 
 //InputBase contains as few styles as possible. It aims to be a simple building block for 
 // creating an input. It contains a load of style reset and some state logic.
@@ -26,13 +26,18 @@ import { DataContext } from '../../context/DataProvider';
 
 import FormData from "form-data";
 
+import Editor from '../editor/Editor.js';
+
+import Quill from "quill";
+import "react-quill/dist/quill.core.css";
+
 const Container = styled(Box)`
     margin:50px 100px
-`
+`;
 
 const Image = styled('img')({
     width:'100%',
-    height:'50vh',
+    height:'30vh',
     objectFit:'cover',
 });
 
@@ -42,10 +47,18 @@ const StyledFormControl = styled(FormControl)`
     flex-direction:row;
     font-size:25px;
 `;
+const StyledFormControl1 = styled(FormControl)`
+    width:95%;
+    margin:0 35px 30px 35px;
+    font-size:25px;
+
+`;
 
 const InputTextField = styled(InputBase)`
     flex:1;
     margin: 0 30px;
+    width:100%;
+    word-break:break-word;
 
 `;
 
@@ -59,12 +72,22 @@ const TextArea = styled(TextareaAutosize)`
     }
 `;
 
+const Btn = styled(Button)`
+    height: 40px;
+    border-radius: 10px;
+`;
+
+const Info = styled(Box)`
+    width:100%;
+    margin: 0 0 20px 0;
+`
 
 //This initialPost obj will store all the details about the blog like
 //title, description, picture, username etc
 const initialPost = {
      title:'',
-     description:'',
+     description:"",
+     minidescription:"",
      picture:'',
      username:'',
      categories:'',
@@ -75,11 +98,13 @@ const initialPost = {
 // app.use(cors({ origin: "*", credentials: true})); 
 
 
-const Update = () => {
+const UpdatePost = () => {
 
 //the above line helps us handle any cors errors
 
     const [post,setPost] = useState(initialPost); 
+    const quillRef = useRef(null); // Ref for Editor
+    const editorContainerRef = useRef(null);
 
     const[file,setFile] = useState(""); // This state will help us store the image
 
@@ -93,6 +118,12 @@ const Update = () => {
     //The use effect takes two argument, 1. a callnack function
     //2. when to call the use effect
 
+    // const quill = new Quill('#editor', {
+    //     theme: 'snow'
+    //   });
+    // const[ value, setValue] = useState('');
+
+
 
     const url = "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80";
 
@@ -100,7 +131,19 @@ const Update = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    
+    const {id} = useParams();
+
+    useEffect(()=>{
+        const fetchData = async() => {
+            let response = await API.getPostById(id);
+            if(response.isSuccess){
+                setPost(response.data);
+            }
+        }
+        fetchData();
+    },[])
+
+
     useEffect(()=>{
 
             const getImage = async() => {
@@ -177,14 +220,64 @@ const Update = () => {
     //And since useEffect is helping in changing this state, i can directly pass the file in
     // the array
 
+
+    // Runs Only Once on Mount → The first useEffect initializes Quill once when the component mounts.
+    //✅ Updates Quill When post.description Changes → The second useEffect ensures that if post.description is updated externally, it reflects in the editor.
+    // ✅ Prevents Reinitialization Issues → The editor is not reset every time post.description updates, avoiding loss of data.
+    useEffect(() => {
+        // Initialize Quill Editor
+        if (!quillRef.current && editorContainerRef.current) {
+          quillRef.current = new Quill(editorContainerRef.current, {
+            theme: "snow",
+            placeholder: "Start writing...",
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['link', 'image'], // Add image button
+                ],
+            },
+            
+          });
+
+          if(post.description){
+            quillRef.current.root.innerHTML= post.description;
+          }
+    
+          quillRef.current.on("text-change", () => {
+            setPost((prevPost) => ({
+              ...prevPost,
+              description: quillRef.current.root.innerHTML, // Store as HTML
+              //description: post.description , 
+            }));
+          });
+        }
+      }, []);   // Depend on `post.description` to load previous content
+
+       // Update Quill content if `post.description` changes externally
+      useEffect(() => {
+        if (quillRef.current && post.description !== quillRef.current.root.innerHTML) {
+          quillRef.current.root.innerHTML = post.description;
+        }
+      }, [post.description]);
+
     const handleChange = (e) => {
             setPost({...post,[e.target.name]: e.target.value})
     }
 
-    const savePost = async() => {
-        const res = await API.createPost(post);
+
+    // const handleContentChange = (content) => {
+    //     setPost(prevPost => ({
+    //         ...prevPost,
+    //         description: content // Store Quill content as HTML
+    //     }));
+    // };
+
+    const updateBlogPost = async() => {
+        const res = await API.updatePost(post);
         if(res.isSuccess){
-            navigate('/');
+            navigate(`/details/${id}`);
         }
     }
     
@@ -211,21 +304,33 @@ const Update = () => {
                 {/* to access any any file, we have to use the target.files[0] function.
                 .file() usually comes in an form of array as we can select multiple files, so we can use indexes
                 to get the desired file */}
-
-                <InputTextField placeholder="Title" onChange={(e) => handleChange(e)} name="title"/> {/*this will give me a text field*/}
-                <Button variant="contained" onClick={() => savePost()}>Publish</Button>
+                <Info>
+                    {/* we are making it a controlled compenent by passing the value={} */}
+                    <InputTextField placeholder="Title" value={post.title} onChange={(e) => handleChange(e)} name="title"/> {/*this will give me a text field*/}
+                    {/* <InputTextField placeholder="Description" onChange={(e) => handleChange(e)} name="minidescription"/>  */}
+                </Info>
+                <Btn variant="contained" onClick={() => updateBlogPost()}>Update</Btn>
             </StyledFormControl>
-            
+            <StyledFormControl1>
+              <InputTextField placeholder="Description( max: 50 character )" value={post.minidescription} onChange={(e) => handleChange(e)} name="minidescription"/> 
 
+            </StyledFormControl1>
+
+
+        
             {/* The Textarea Autosize component gives you a textarea HTML element that automatically 
             adjusts its height to match the length of the content within. */}
             {/* "minRows" is a prop that determines the minimum height of the text area */}
-            <TextArea
+            {/* <TextArea
                 minRows={5}
                 placeholder="Start writing..."
-                onChange={(e) => handleChange(e)} name="description"/>
+                onChange={(e) => handleChange(e)} name="description"/> */}
+
+            {/* <Editor ref={editorRef} defaultValue={post.description} /> */}
+            <Box ref={editorContainerRef}  style={{ height: "300px", marginTop: "20px", border: "1px solid #ccc" }} />
+
         </Container>
     )
 }
 
-export default Update;
+export default UpdatePost;

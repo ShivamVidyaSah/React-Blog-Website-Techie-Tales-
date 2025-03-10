@@ -56,3 +56,44 @@ export const getPost = async(req,res) => {
         res.status(500).json({msg: error.message});
     }
 } 
+
+
+export const updatePost = async(req,res) => {
+    try{
+
+        const post = await Post.findById(req.params.id);
+
+        if(!post){
+            return res.status(404).json({msg:"No post available"});
+        }
+
+        await Post.findByIdAndUpdate(req.params.id, {$set: req.body}) //the two main methods are $set and $addToSet
+
+        return res.status(200).json({msg:"Post updated"})
+
+    }catch(error){
+
+        return res.status(500).json({error: error.message})
+
+    }
+}
+
+export const deletePost = async(req,res) => {
+
+    try{
+        const post = await Post.findById(req.params.id);
+
+        if(!post){
+            return res.status(404).json({msg:"No post available"});
+
+        }
+
+        await post.deleteOne(); // this function is used to delete a certain post from the db
+
+        return res.status(200).json({msg:'Post deleted successfully'});
+    }catch(error){
+        return res.status(500).json({error: error.message});
+
+    }
+
+}

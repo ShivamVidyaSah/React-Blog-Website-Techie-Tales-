@@ -50,7 +50,7 @@ const Post = ({post}) => {
             <Text>{post.categories}</Text>
             <Heading>{addEllipsis(post.title, 20)}</Heading>
             <Text>{post.username}</Text>
-            <Details>{addEllipsis(post.description,50)}</Details>
+            <Details>{addEllipsis(post.minidescription,50)}</Details>
         </Container>
     )
 }
