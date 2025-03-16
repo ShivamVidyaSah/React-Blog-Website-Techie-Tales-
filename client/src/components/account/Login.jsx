@@ -12,6 +12,8 @@ import { useState, useContext } from "react";
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
 import { API } from "../../services/api.js"
 
+import logo from "../../asset/welcome Techie Tales.png"
+
 import { DataContext } from "../../context/DataProvider.jsx";
 //Handling styling in Material UI is a little complex.
 // We have to use the "styled" component. First we import the "styled" component
@@ -38,14 +40,14 @@ const Styledbox = styled(Box)`
 // and for the css, you will have to pass it as an object and not under backtik
 // we can use backtik only with the Material UI components
 const Image = styled("img")({
-    width: 100, // we do not have to write 'px', it is taken by default
+    width: '60%', // we do not have to write 'px', it is taken by default
     margin:'auto', //works only with display: flex
     display:'flex',
     padding:'50px 0 0'
 });
 
 const FormStyle = styled(Box)`
-    padding:25px 35px;
+    padding:15px 35px;
     display:flex;
     flex:1;
     flex-direction:column;
@@ -102,8 +104,9 @@ const loginInitiatlValue = {
 //Since i have passed the isUserAuthenticated as a prop, i can now use it here
 const Login = ( {isUserAuthenticated}) =>{
 
-    const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
+    //const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
 
+    const imageURL = logo;
 
     const [account, toggleAccount] = useState("login");
     //a state is read-only, you cannot directly change it from anywhere
@@ -194,6 +197,7 @@ const Login = ( {isUserAuthenticated}) =>{
                 // we are getting this form the processResponse in api.js
                 sessionStorage.setItem('accessToken' , `Bearer ${response.data.accessToken}`);
                 sessionStorage.setItem('refreshToken' , `Bearer ${response.data.refreshToken}`);
+                sessionStorage.setItem('userName',`${response.data.username}`);
 
                 //the processResponse also sends us name and username, we will have to store them as well
                 // so that we can use them inside the project whenever we need, we will use context api for that

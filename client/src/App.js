@@ -11,6 +11,9 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom
 import CreatePost from './components/create/CreatePost.jsx';
 import DetailView from './components/details/DetailsView.jsx';
 import Update from './components/create/Update.jsx';
+import Profile from './components/Profile/Profile.jsx';
+import About from './components/about/About.jsx';
+import Contact from './components/contact/Contact.jsx';
 
 
 //The work of this private route will be to check whether the user is authenticated or not
@@ -106,6 +109,21 @@ function App() {
               <Route path='/update/:id' element={<PrivateRoute isAuthenticated={isAuthenticated}/>} >
                      <Route path='/update/:id' element={<Update/>}/>{/* This route is the main route */}
               </Route>
+
+              <Route path='/about' element={<PrivateRoute isAuthenticated={isAuthenticated}/>} >
+                     <Route path='/about' element={<About/>}/>{/* This route is the main route */}
+              </Route>
+
+              <Route path='/contact' element={<PrivateRoute isAuthenticated={isAuthenticated}/>} >
+                     <Route path='/contact' element={<Contact/>}/>{/* This route is the main route */}
+              </Route>
+
+
+              <Route path='/profile/:username' element={<PrivateRoute isAuthenticated={isAuthenticated}/>} >
+                     <Route path='/profile/:username' element={<Profile />}/>{/* This route is the main route */}
+              </Route>
+
+
 
             </Routes> 
         </div>

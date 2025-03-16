@@ -49,6 +49,14 @@ export const SERVICE_URLS ={
     
     updatePost: { url:'/update', method:'PUT', query:true},
 
-    deletePost: {url:'/delete', method:'DELETE', query: true}
+    deletePost: {url:'/delete', method:'DELETE', query: true},
+
+    newComment: {url:'/comment/new', method:'POST'},
+
+    getUserInfo: {url:'/profile', method:'GET', params: true},
+
+    getAllComments: {url:'comments', method:'GET', query: true},
+
+    deleteComment: {url:'comment/delete', method:'DELETE', query: true}
 
 }

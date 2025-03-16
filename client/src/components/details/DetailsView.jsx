@@ -5,12 +5,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useParams,Link, Navigate, useNavigate } from "react-router-dom";
 import { API } from "../../services/api";
 import {DataContext} from "../../context/DataProvider.jsx"
+import { Comments } from "./comments/Comments.jsx";
 
 
-
-const Container = styled(Box)`
-    margin:50px 100px;
-`;
+// here we are trying to make this responsive and to make this repsonsive
+// we have to do it like this
+const Container = styled(Box)(({theme})=>({
+    margin:'50px 100px',
+    // We are adding breakpoints to make sure the responsiveness works 
+    // 'md' means 'medium screen'
+    [theme.breakpoints.down('md')] : {
+        margin: 15
+    }
+}))
 
 const Image = styled('img')({
     width:'100%',
@@ -121,6 +128,8 @@ const DetailView = () => {
             <Description component="div">
                 <div dangerouslySetInnerHTML={{ __html: post.description }} />
             </Description>
+
+             <Comments post={post}/> {/*passing a prop to Comments.jsx file */}
 
         </Container>
     )

@@ -14,7 +14,7 @@ export const DataContext = createContext(null);
 const DataProvider = ({children}) =>{
     //creating a state to tore the account information succh as username and name
     // we are setting the initial state to blank 
-    const [ account, setAccount ] = useState({name:'', username:'' })
+    const [ account, setAccount ] = useState({ username:'', email:''})
 
     //In this return statement we are returning the datacontext variable
     //the .provider is a built-in component that provides a value(state or function)

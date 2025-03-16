@@ -31,9 +31,14 @@ import Editor from '../editor/Editor.js';
 import Quill from "quill";
 import "react-quill/dist/quill.core.css";
 
-const Container = styled(Box)`
-    margin:50px 100px
-`;
+const Container = styled(Box)(({theme})=>({
+    margin:'50px 100px',
+    // We are adding breakpoints to make sure the responsiveness works 
+    // 'md' means 'medium screen'
+    [theme.breakpoints.down('md')] : {
+        margin: 15
+    }
+}))
 
 const Image = styled('img')({
     width:'100%',

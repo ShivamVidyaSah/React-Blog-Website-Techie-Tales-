@@ -14,6 +14,8 @@ import { createPost, deletePost, getAllPosts, getPost, updatePost } from "../con
 // we can store it in DB, we will be storing the files for the middleware under /server/utils folder]
 
 import { authenticateToken } from "../controller/jwt-controller.js";
+import { getComments, newComment, deleteComment } from "../controller/comment-controller.js";
+import { getProfile } from "../controller/profile-controller.js";
 
 //This will allow us to to define specific routes and 
 //middleware for different parts of your application, 
@@ -49,13 +51,21 @@ router.post('/create', authenticateToken ,createPost);
 
 
 router.get('/posts',authenticateToken, getAllPosts);
-//getAllPost in present in post-controller.js
+//getAllPost is present in post-controller.js
 
 
 router.get('/post/:id', authenticateToken , getPost);
 
 router.put('/update/:id', authenticateToken, updatePost);
 
-router.delete('/delete/:id', authenticateToken, deletePost)
+router.delete('/delete/:id', authenticateToken, deletePost);
+
+router.post('/comment/new', authenticateToken, newComment);
+
+router.get('/profile', authenticateToken, getProfile);
+
+router.get('/comments/:id', authenticateToken, getComments);
+
+router.delete('/comment/delete/:id', authenticateToken, deleteComment)
 
 export default router;
