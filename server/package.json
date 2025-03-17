@@ -13,9 +13,12 @@
   "license": "ISC",
   "author": "Shivam Vidya Sah",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-install": "cd client && npm install",
+    "client-build": "cd client && npm run build",
+    "heroku-postbuild": "npm run client-install && npm run client-build"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

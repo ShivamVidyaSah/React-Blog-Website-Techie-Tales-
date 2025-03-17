@@ -2,7 +2,7 @@
 
 import grid from "gridfs-stream";
 
-const url = 'http://localhost:4000'
+const url = ''
 
 export const uploadImage = (req,res) => {
 

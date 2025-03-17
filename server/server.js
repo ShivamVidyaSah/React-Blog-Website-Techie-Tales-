@@ -23,7 +23,7 @@ dotenv.config(); //Config. config will read your .env file,
 // an Object with a parsed key containing the loaded content 
 // or an error key if it failed
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,6 +43,11 @@ app.use("/", Router);
 //and then router.post("/signup", signupUser) route --> which will pass
 //the request to user-controller's signupUser function to perform some task
 
+//this is for heroku to understand that it has to deploy the front-end also
+if(process.env.NODE_EVN === 'production'){
+    app.use(express.static("client/build"));
+}
+
 app.listen(port, function(err){
     if(err){
         console.log(err.message);
@@ -55,5 +60,8 @@ app.listen(port, function(err){
 const USERNAME = process.env.DB_USERNAME;
 const PASSWORD = process.env.DB_PASSWORD;
 
+const URL = process.env.MONGODB_URI || `mongodb://${USERNAME}:${PASSWORD}@blogapp-shard-00-00.5bqhp.mongodb.net:27017,blogapp-shard-00-01.5bqhp.mongodb.net:27017,blogapp-shard-00-02.5bqhp.mongodb.net:27017/?ssl=true&replicaSet=atlas-bhtjoj-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BlogApp`;
+
+
 //after server started running on 4000, we call the connection function to initiate the connection to database
-Connection(USERNAME,PASSWORD);
+Connection(URL);
