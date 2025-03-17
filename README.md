@@ -16,7 +16,9 @@ A full-stack blogging application built with React, Material UI, Node.js, and Ex
 ✅ Secure JWT-based authentication.
 ✅ Profile section displaying user details and all their authored blogs.
 
+
 🛠️ Tech Stack
 Frontend: React, Material UI
 Backend: Node.js, Express.js
 Authentication: JWT
+Database: MongoDB
