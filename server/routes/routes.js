@@ -15,7 +15,8 @@ import { createPost, deletePost, getAllPosts, getPost, updatePost } from "../con
 
 import { authenticateToken } from "../controller/jwt-controller.js";
 import { getComments, newComment, deleteComment } from "../controller/comment-controller.js";
-import { getProfile } from "../controller/profile-controller.js";
+import { getBlog, getProfile } from "../controller/profile-controller.js";
+import { sendMail } from "../controller/mail-controller.js";
 
 //This will allow us to to define specific routes and 
 //middleware for different parts of your application, 
@@ -66,6 +67,10 @@ router.get('/profile', authenticateToken, getProfile);
 
 router.get('/comments/:id', authenticateToken, getComments);
 
-router.delete('/comment/delete/:id', authenticateToken, deleteComment)
+router.delete('/comment/delete/:id', authenticateToken, deleteComment);
+
+router.get('/blog', authenticateToken, getBlog);
+
+router.post('/contact', authenticateToken, sendMail);
 
 export default router;

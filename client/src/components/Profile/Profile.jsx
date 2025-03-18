@@ -66,13 +66,19 @@ const Profile = () => {
       
       try {
         const response = await API.getUserInfo(username);
-        console.log(response);
-        setUser({
+
+        const resBlog = await API.getBlogs(username);
+
+        console.log(resBlog);
+        setUser((prevUser)=>({
+          ...prevUser,
           name: response.data.username? response.data.username : "Unknown",
           mail: response.data.email?   response.data.email : "N/A",
           profilePic: response.profilePic || profilePic,
-          blogs: response.blogs || [],
-        });
+          blogs: resBlog.data? resBlog.data : [],
+        }));
+
+      
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -143,9 +149,9 @@ const Profile = () => {
               <Typography variant="h6">My Blogs</Typography>
               {user.blogs.length > 0 ? (
                 user.blogs.map((blog) => (
-                  <Box key={blog.id} sx={{ marginTop: 2, padding: 2, border: "1px solid #ddd", borderRadius: "5px" }}>
+                  <Box key={blog._id} sx={{ marginTop: 2, padding: 2, border: "1px solid #ddd", borderRadius: "5px" }}>
                     <Typography variant="subtitle1">{blog.title}</Typography>
-                    <Typography variant="caption">{blog.date}</Typography>
+                    <Typography variant="caption">{new Date(blog.createdDate).toDateString()}</Typography>
                   </Box>
                 ))
               ) : (

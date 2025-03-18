@@ -57,6 +57,10 @@ export const SERVICE_URLS ={
 
     getAllComments: {url:'comments', method:'GET', query: true},
 
-    deleteComment: {url:'comment/delete', method:'DELETE', query: true}
+    deleteComment: {url:'comment/delete', method:'DELETE', query: true},
+
+    getBlogs: {url:'/blog', method:'GET', params: true},
+
+    sendMail: {url:'/contact', method:'POST'}
 
 }
