@@ -60,6 +60,8 @@ const Profile = () => {
 
   const  username = useParams();
 
+  //console.log(username);
+
   useEffect(() => {
    
     const fetchUserInfo = async () => {
@@ -69,7 +71,7 @@ const Profile = () => {
 
         const resBlog = await API.getBlogs(username);
 
-        console.log(resBlog);
+        console.log(response);
         setUser((prevUser)=>({
           ...prevUser,
           name: response.data.username? response.data.username : "Unknown",

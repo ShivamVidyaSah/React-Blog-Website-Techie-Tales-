@@ -67,7 +67,7 @@ const Comment = ({comment, setToggle}) => {
 
                 }
             }catch(error){
-
+                console.log(error);
             }
     }
 

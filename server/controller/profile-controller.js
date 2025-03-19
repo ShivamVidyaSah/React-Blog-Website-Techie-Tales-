@@ -6,7 +6,8 @@ import Post from "../model/post.js";
 export const getProfile = async(req,res) => {
     try{
         
-        const user = await User.findOne(req.body.username);
+        console.log(req.user.username);
+        const user = await User.findOne({username: req.user.username});
 
         return res.status(200).json(user);
     }catch(error){
@@ -17,7 +18,7 @@ export const getProfile = async(req,res) => {
 export const getBlog = async(req,res) => {
     try{
         
-        const blog = await Post.find(req.body.username);
+        const blog = await Post.find({username: req.user.username});
         
         return res.status(200).json(blog);
     }catch(error){

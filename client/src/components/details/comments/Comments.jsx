@@ -68,13 +68,17 @@ export const Comments = ({post}) => {
 
     useEffect(()=> {
         const getData = async() => {
+
+            try{
             const response = await API.getAllComments(post._id);
             if(response.isSuccess){
                 setComments(response.data);
             }
+        }catch(error){
+            console.log(error);
         }
         getData();
-    },[post._id, toggle])
+    }},[post._id, toggle])
 
     const handleChange = (e) => {
         setComment({

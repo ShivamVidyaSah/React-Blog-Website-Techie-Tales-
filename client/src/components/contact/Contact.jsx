@@ -62,9 +62,9 @@ const Contact = () => {
         setStatus("Sending...");
         try{
             const response = API.sendMail(formData);
-            if(response.isSuccess){
+            
                 setStatus("Sent");
-            }
+           
 
         }catch(error){
             setStatus("Error sending message");
