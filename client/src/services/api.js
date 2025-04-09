@@ -5,7 +5,7 @@ import { getAccessToken, getType } from "../utils/common-utils.js";
 //instaed of making different api 
 //we will be using axios interceptors to create a common api
 
-const API_URL = "http://localhost:4000"; // this will store the url where the backend is running
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000'; // this will store the url where the backend is running
 
 //we are creating an API using axios.create
 const axiosInstance = axios.create({
